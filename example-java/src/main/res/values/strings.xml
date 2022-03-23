@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Android IronSource Adapter</string>
+    <string name="show_rewarded_ad_button_text">Show Rewarded Ad</string>
+</resources>
