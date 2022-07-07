@@ -12,7 +12,7 @@ data class AdapterInfo(
 ) {
 
     override fun toString(): String =
-        "{api_key: $apiKey, release_mode: ${releaseMode ?: false}, offerwall_mode: ${offerwallMode ?: false}, request_mode: $requestUUID}"
+        "{api_key: $apiKey, release_mode: ${releaseMode ?: false}, offerwall_mode: ${offerwallMode ?: false}, request_uuid: $requestUUID}"
 
     companion object {
         fun fromAdData(adData: AdData): AdapterInfo? {

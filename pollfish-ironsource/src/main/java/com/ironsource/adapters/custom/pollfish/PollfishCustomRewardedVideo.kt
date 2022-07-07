@@ -81,7 +81,7 @@ class PollfishCustomRewardedVideo(networkSettings: NetworkSettings) :
             .pollfishUserNotEligibleListener(this)
             .pollfishUserRejectedSurveyListener(this)
             .pollfishSurveyReceivedListener(this)
-            .platform(Platform.MAX)
+            .platform(Platform.IRON_SOURCE)
             .build()
 
         Pollfish.initWith(activity, params)
@@ -131,6 +131,7 @@ class PollfishCustomRewardedVideo(networkSettings: NetworkSettings) :
     }
 
     override fun onPollfishSurveyNotAvailable() {
+        Log.v("Pollfish", "Pollfish surveys are not available")
         adapterListener?.onAdLoadFailed(
             AdapterErrorType.ADAPTER_ERROR_TYPE_NO_FILL,
             PollfishAdapterError.NotAvailable.code,
@@ -139,6 +140,7 @@ class PollfishCustomRewardedVideo(networkSettings: NetworkSettings) :
     }
 
     override fun onPollfishSurveyReceived(surveyInfo: SurveyInfo?) {
+        Log.v("Pollfish", "Pollfish survey received: ${surveyInfo.toString()}")
         adapterListener?.onAdLoadSuccess()
     }
 

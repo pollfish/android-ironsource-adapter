@@ -85,6 +85,8 @@ class MainActivity : AppCompatActivity(), RewardedVideoListener {
             showToastMessage(it)
             placement = null
         }
+
+        initIronSource()
     }
 
     override fun onRewardedVideoAvailabilityChanged(available: Boolean) {

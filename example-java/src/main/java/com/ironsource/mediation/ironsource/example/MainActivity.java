@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
             showToastMessage(mPlacement);
             mPlacement = null;
         }
+
+        initIronSource();
     }
 
     @Override
