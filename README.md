@@ -26,7 +26,7 @@ Retrieve Pollfish IronSource Adapter through **mavenCentral()** with gradle by a
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-ironsource:6.2.5.0'
+    implementation 'com.pollfish.mediation:pollfish-ironsource:6.3.0.0'
 }
 ```
 
