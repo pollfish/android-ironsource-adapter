@@ -1,8 +1,8 @@
 package com.ironsource.adapters.custom.pollfish
 
 object PollfishConstants {
-    const val POLLFISH_SDK_VERSION = "6.3.0"
-    const val POLLFISH_ADAPTER_VERSION = "6.3.0.0"
+    const val POLLFISH_SDK_VERSION = "6.3.1"
+    const val POLLFISH_ADAPTER_VERSION = "6.3.1.0"
 
     const val POLLFISH_REQUEST_UUID_AD_DATA_KEY = "request_uuid"
     const val POLLFISH_RELEASE_MODE_AD_DATA_KEY = "release_mode"
