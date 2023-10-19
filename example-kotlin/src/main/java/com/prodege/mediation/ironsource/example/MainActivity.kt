@@ -1,26 +1,24 @@
-package com.pollfish.mediation.ironsource
+package com.prodege.mediation.ironsource.example
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ironsource.adapters.custom.prodege.ProdegeCustomAdapter
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.model.Placement
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener
-import com.pollfish.mediation.ironsource.databinding.ActivityMainBinding
+import com.prodege.mediation.ironsource.example.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), RewardedVideoListener {
 
     companion object {
-        // TODO: Place your App Key here
-        const val APP_KEY = "APP_KEY"
         val TAG: String = MainActivity::class.java.simpleName
     }
 
     private lateinit var binding: ActivityMainBinding
-    private var placement: Placement? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +34,12 @@ class MainActivity : AppCompatActivity(), RewardedVideoListener {
     private fun initIronSource() {
         IntegrationHelper.validateIntegration(this)
         IronSource.setRewardedVideoListener(this)
-        IronSource.init(this, APP_KEY)
+
+        // Optional
+        ProdegeCustomAdapter.setTestMode(true)
+        ProdegeCustomAdapter.setUserId("USER_ID")
+
+        IronSource.init(this, getString(R.string.iron_source_app_id))
     }
 
     override fun onResume() {
@@ -66,26 +69,12 @@ class MainActivity : AppCompatActivity(), RewardedVideoListener {
         }
     }
 
-    private fun showToastMessage(placement: Placement) {
-        Toast.makeText(
-            this,
-            "You've received ${placement.rewardAmount} ${placement.rewardName}",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
     override fun onRewardedVideoAdOpened() {
         Log.d(TAG, "onRewardedVideoAdOpened")
     }
 
     override fun onRewardedVideoAdClosed() {
         Log.d(TAG, "onRewardedVideoAdClosed")
-
-        placement?.let {
-            showToastMessage(it)
-            placement = null
-        }
-
         initIronSource()
     }
 
@@ -103,14 +92,21 @@ class MainActivity : AppCompatActivity(), RewardedVideoListener {
     }
 
     override fun onRewardedVideoAdRewarded(placement: Placement) {
-        Log.d(TAG, "onRewardedVideoAdRewarded $placement")
-        this.placement = placement
+        val message = "onRewardedVideoAdRewarded: ${placement.rewardAmount} ${placement.rewardName}"
+        Toast.makeText(
+            this,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+        Log.d(TAG, message)
     }
 
     override fun onRewardedVideoAdShowFailed(ironSourceError: IronSourceError?) {
         Log.d(TAG, "onRewardedVideoAdShowFailed $ironSourceError")
     }
 
-    override fun onRewardedVideoAdClicked(placement: Placement) {}
+    override fun onRewardedVideoAdClicked(placement: Placement) {
+        Log.d(TAG, "onRewardedVideoAdClicked")
+    }
 
 }

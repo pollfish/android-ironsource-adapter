@@ -4,13 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
-        versionCode 6
-        versionName "6.4.0.0"
+        targetSdk 34
+
+        buildConfigField 'String', 'ADAPTER_VERSION', "\"${rootProject.adapterVersionName}\""
+        buildConfigField 'String', 'PRODEGE_SDK_VERSION', "\"${rootProject.prodegeSdkVersion}\""
     }
 
     buildTypes {
@@ -27,17 +28,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.ironsource.adapters.custom.prodege'
 
     libraryVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "${archivesBaseName}-${defaultConfig.versionName}.aar"
+            outputFileName = "${archivesBaseName}-${rootProject.adapterVersionName}.aar"
         }
     }
 }
 
 dependencies {
-    api 'com.pollfish:pollfish-googleplay:6.4.0'
-    api 'com.ironsource.sdk:mediationsdk:7.2.2.1'
+    implementation "com.pollfish:prodege:${rootProject.prodegeSdkVersion}"
+    implementation "com.ironsource.sdk:mediationsdk:${rootProject.ironSourceSdkVersion}"
 }
 
 apply from: '../publish.gradle'

@@ -1,40 +1,26 @@
-# Pollfish Android IronSource Mediation Adapter
+# Prodege Android IronSource Mediation Adapter
 
-IronSource Mediation Adapter for Android apps looking to load and show Rewarded Surveys from Pollfish in the same waterfall with other Rewarded Ads.
+IronSource Mediation Adapter for Android apps looking to load and show Rewarded ads from Prodege in the same waterfall with other Rewarded Ads.
 
 > **Note:** A detailed step by step guide is provided on how to integrate can be found [here](https://www.pollfish.com/docs/android-ironsource-adapter)
 
 <br/>
 
-## Step 1: Add Pollfish IronSource Adapter to your project
+## Add Prodege IronSource Adapter to your project
 
-Download the following libraries
-
-* [Pollfish SDK](https://www.pollfish.com/docs/android/google-play)
-* [IronSource SDK](https://developers.is.com/ironsource-mobile/android/android-sdk/)
-* [PollfishIronSourceAdapter](https://pollfish.com/docs/android-ironsource-adapter)
-
-Import Pollfish IronSource adapter **.aar** file as it can be found in the **pollfish-ironsource-aar** folder, into your project libraries. Also import the **pollfish-googleplay-xxx.aar** which can be found [here](https://pollfish.com/docs/android/google-play)
-
-If you are using Android Studio, right click on your project and select New Module. Then select Import .jar or .aar Package option and from the file browser locate Pollfish IronSource Adapter aar file. Right click again on your project and in the Module Dependencies tab choose to add Pollfish module that you recently added, as a dependency.
-
-**OR**
-
-#### **Retrieve Pollfish IronSource Adapter through mavenCentral()**
-
-Retrieve Pollfish IronSource Adapter through **mavenCentral()** with gradle by adding the following line in your project **build.gradle** (not the top level one, the one under 'app') in dependencies section:
+Retrieve Prodege IronSource Adapter through **maven()** with gradle by adding the following line in your app's module **build.gradle** file:
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-ironsource:6.4.0.0'
+    implementation 'com.pollfish.mediation:prodege-ironsource:7.0.0-beta01.0'
 }
 ```
 
 <br/>
 
-## Step 2: Request for a RewardedAd
+## Request for a RewardedAd
 
-Import the following packages
+Import the following packages.
 
 <span style="text-decoration:underline">Kotlin</span>
 
@@ -56,9 +42,7 @@ import com.ironsource.mediationsdk.model.Placement;
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener;
 ```
 
-<br/>
-
-Initialize IronSource SDK by calling the `init` method, passing the `Activity` and your App Key as provided by the IronSource dashboard. Do this as soon as possible after your app starts, for example in the `onCreate()` method of your launch Activity.
+<br/>Initialize IronSource SDK by calling the `init` method, passing the `Activity` and your App Key as provided by the IronSource dashboard. Do this as soon as possible after your app starts, for example in the `onCreate()` method of your launch Activity.
 
 <span style="text-decoration:underline">Kotlin</span>
 
@@ -120,7 +104,7 @@ if (IronSource.isRewardedVideoAvailable())
 
 <br/>
 
-You can view a short example on how to intergate rewarded ads below
+You can view a short example on how to intergate rewarded ads below.
 
 <span style="text-decoration:underline">Kotlin</span>
 
@@ -128,7 +112,7 @@ You can view a short example on how to intergate rewarded ads below
 class MainActivity : AppCompatActivity(), RewardedVideoListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ...
+        // ...
 
         IntegrationHelper.validateIntegration(this)
         IronSource.setRewardedVideoListener(this)
@@ -136,13 +120,13 @@ class MainActivity : AppCompatActivity(), RewardedVideoListener {
     }
 
     override fun onResume() {
-        ...
+        // ...
 
         IronSource.onResume(this)
     }
 
     override fun onPause() {
-        ...
+        // ...
 
         IronSource.onPause(this)
     }
@@ -178,7 +162,7 @@ class MainActivity extends AppCompatActivity implements RewardedVideoListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ...
+        // ...
 
         IntegrationHelper.validateIntegration(this);
         IronSource.setRewardedVideoListener(this);
@@ -187,14 +171,14 @@ class MainActivity extends AppCompatActivity implements RewardedVideoListener {
 
     @Override
     protected void onResume() {
-        ...
+        // ...
         
         IronSource.onResume(this);
     }
 
     @Override
     protected void onPause() {
-        ...
+        // ...
 
         IronSource.onPause(this);
     }
@@ -233,18 +217,78 @@ class MainActivity extends AppCompatActivity implements RewardedVideoListener {
 
 <br/>
 
-## Step 3: Publish
+## Configure the Prodege SDK programmatically
 
-If you everything worked fine during the previous steps, you should turn Pollfish to release mode and publish your app.
+Prodege IronSource Adapter provided a couple of options you can use to control the behaviour of Prodege SDK. Any configuration, if applied, will override the corresponding configuration done in IronSource's dashboard.
 
-> **Note:** After you take your app live, you should request your account to get verified through Pollfish Dashboard in the App Settings area.
+### **6.1. `.setUserId(String)`**
 
-> **Note:** There is an option to show **Standalone Demographic Questions** needed for Pollfish to target users with surveys even when no actually surveys are available. Those surveys do not deliver any revenue to the publisher (but they can increase fill rate) and therefore if you do not want to show such surveys in the Waterfall you should visit your **App Settings** are and disable that option.
+An optional id used to identify a user.
+
+Setting the Prodege's `userId` will override the default behaviour and use that instead of the Advertising Id in order to identify a user.
+
+> **Note:** <span style="color: red">You can pass the id of a user as identified on your system. Prodege will use this id to identify the user across sessions instead of an ad id/idfa as advised by the stores. You are solely responsible for aligning with store regulations by providing this id and getting relevant consent by the user when necessary. Prodege takes no responsibility for the usage of this id. In any request from your users on resetting/deleting this id and/or profile created, you should be solely liable for those requests.</span>
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+ProdegeCustomAdapter.setUserId("USER_ID")
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+ProdegeCustomAdapter.setUserId("USER_ID");
+```
+
+<br/>
+
+### **6.2. `.setTestMode(Boolean)`**
+
+- **`true`** is used to show to the developer how Prodege ads will be shown through an app (useful during development and testing).
+- **`false`** is the mode to be used for a released app in any app store (start receiving paid surveys).
+
+If you have already specified the test mode on IronSource's UI, this will override the one defined on Web UI.
+
+Prodege IronSource Adapter works by default in live mode. If you would like to test with test ads:
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+ProdegeCustomAdapter.setTestMode(true)
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+ProdegeCustomAdapter.setTestMode(true);
+```
+
+<br/>
+
+## Proguard
+
+If you use proguard with your app, please insert the following lines in your proguard configuration file:
+
+```java
+-dontwarn com.prodege.**
+-keep class com.prodege.** { *; }
+```
+
+<br/>
+
+## Publish
+
+If everything worked fine during the previous steps, you are ready to proceed with publishing your app.
+
+> **Note:** After you take your app live, you should request your account to get verified through the [Publisher Dashboard](https://www.pollfish.com/publisher/) in the App Settings area.
+
+> **Note:** There is an option to show **Standalone Demographic Questions** needed for Prodege to target users with surveys even when no actually surveys are available. Those surveys do not deliver any revenue to the publisher (but they can increase fill rate) and therefore if you do not want to show such surveys in the Waterfall you should visit your **App Settings** are and disable that option. You can read more [here](https://www.pollfish.com/docs/demographic-surveys).
 
 # More info
 
 You can read more info on how the Pollfish SDKs work or how to get started with IronSource at the following links:
 
-[Pollfish iOS SDK](https://pollfish.com/docs/android/google-play)
+[Prodege iOS SDK](https://pollfish.com/docs/android)
 
 [IronSource iOS SDK](https://developers.is.com/ironsource-mobile/android/android-sdk)
