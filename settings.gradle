@@ -18,5 +18,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "android-ironsource-adapter"
 include ':example-kotlin'
-include ':pollfish-ironsource'
+include ':prodege-ironsource'
 include ':example-java'

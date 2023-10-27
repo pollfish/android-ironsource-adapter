@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        applicationId "com.pollfish.mediation.ironsource"
+        applicationId "com.prodege.mediation.ironsource.example"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
@@ -32,14 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.prodege.mediation.ironsource.example'
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'com.ironsource.sdk:mediationsdk:7.2.2.1'
-    implementation project(':pollfish-ironsource')
+    implementation 'com.pollfish:prodege:7.0.0-beta01'
+    implementation project(':prodege-ironsource')
 }

@@ -1,5 +1,6 @@
 package com.ironsource.mediation.ironsource.example;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -7,20 +8,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ironsource.adapters.custom.prodege.ProdegeCustomAdapter;
 import com.ironsource.mediationsdk.IronSource;
 import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.Placement;
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener;
+import com.prodege.mediation.ironsource.example.R;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    // TODO: Place your App Key here
-    private static final String APP_KEY = "APP_KEY";
 
     private Button mRewardedAdButton;
-    private Placement mPlacement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
     private void initIronSource() {
         IntegrationHelper.validateIntegration(this);
         IronSource.setRewardedVideoListener(this);
-        IronSource.init(this, APP_KEY);
+
+        // Optional
+        ProdegeCustomAdapter.setTestMode(true);
+        ProdegeCustomAdapter.setUserId("USER_ID");
+
+        IronSource.init(this, getString(R.string.iron_source_app_id));
     }
 
     @Override
@@ -70,14 +75,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
             IronSource.showRewardedVideo();
     }
 
-    private void showToastMessage(Placement placement) {
-        Toast.makeText(
-                this,
-                "You've received " + placement.getRewardAmount() + " " + placement.getRewardName(),
-                Toast.LENGTH_SHORT
-        ).show();
-    }
-
     @Override
     public void onRewardedVideoAdOpened() {
         Log.d(TAG, "onRewardedVideoAdOpened");
@@ -86,19 +83,13 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
     @Override
     public void onRewardedVideoAdClosed() {
         Log.d(TAG, "onRewardedVideoAdClosed");
-
-        if (mPlacement != null) {
-            showToastMessage(mPlacement);
-            mPlacement = null;
-        }
-
         initIronSource();
     }
 
     @Override
     public void onRewardedVideoAvailabilityChanged(boolean available) {
         handleVideoButtonState(available);
-        Log.d(TAG, "onRewardedVideoAvailabilityChanged $available");
+        Log.d(TAG, String.format("onRewardedVideoAvailabilityChanged: %s", available ? "Available" : "Unavailable"));
     }
 
     @Override
@@ -113,8 +104,14 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
 
     @Override
     public void onRewardedVideoAdRewarded(Placement placement) {
-        Log.d(TAG, "onRewardedVideoAdRewarded $placement");
-        mPlacement = placement;
+        @SuppressLint("DefaultLocale") String message =
+                String.format("onRewardedVideoAdRewarded: %d %s", placement.getRewardAmount(), placement.getRewardName());
+        Toast.makeText(
+                this,
+                message,
+                Toast.LENGTH_SHORT
+        ).show();
+        Log.d(TAG, message);
     }
 
     @Override
@@ -123,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoList
     }
 
     @Override
-    public void onRewardedVideoAdClicked(Placement placement) {}
+    public void onRewardedVideoAdClicked(Placement placement) {
+        Log.d(TAG, "onRewardedVideoAdClicked");
+    }
 
 }
