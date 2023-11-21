@@ -12,7 +12,7 @@ Retrieve Prodege IronSource Adapter through **maven()** with gradle by adding th
 
 ```groovy
 dependencies {
-    implementation 'com.prodege.mediation:prodege-ironsource:7.0.0-beta01.0'
+    implementation 'com.prodege.mediation:prodege-ironsource:7.0.0-beta03.0'
 }
 ```
 
@@ -287,8 +287,8 @@ If everything worked fine during the previous steps, you are ready to proceed wi
 
 # More info
 
-You can read more info on how the Pollfish SDKs work or how to get started with IronSource at the following links:
+You can read more info on how the Prodege SDKs work or how to get started with IronSource at the following links:
 
-[Prodege iOS SDK](https://pollfish.com/docs/android)
+[Prodege Android SDK](https://pollfish.com/docs/android-v7)
 
-[IronSource iOS SDK](https://developers.is.com/ironsource-mobile/android/android-sdk)
+[IronSource Android SDK](https://developers.is.com/ironsource-mobile/android/android-sdk)
