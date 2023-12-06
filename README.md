@@ -12,7 +12,7 @@ Retrieve Prodege IronSource Adapter through **maven()** with gradle by adding th
 
 ```groovy
 dependencies {
-    implementation 'com.prodege.mediation:prodege-ironsource:7.0.0-beta03.0'
+    implementation 'com.prodege.mediation:prodege-ironsource:7.0.0-beta04.0'
 }
 ```
 
