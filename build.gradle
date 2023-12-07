@@ -11,8 +11,8 @@ tasks.register('clean', Delete) {
 }
 
 ext {
-    prodegeSdkVersion = "7.0.0-beta04"
-    adapterVersionCode = 9
+    prodegeSdkVersion = "7.0.0-beta05"
+    adapterVersionCode = 10
     adapterVersionName = "${prodegeSdkVersion}.0"
-    ironSourceSdkVersion = "7.2.2.1"
+    ironSourceSdkVersion = "7.3.0.1"
 }
